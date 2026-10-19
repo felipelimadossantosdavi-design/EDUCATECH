@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#6d45e8">
+<meta name="description" content="EducaTech — biblioteca digital escolar com pesquisa, filtros, favoritos e materiais de estudo gratuitos.">
+<title>EducaTech | Biblioteca Digital</title>
+<style>
+:root{--bg:#f7f6fc;--surface:#fff;--surface2:#f0edfb;--text:#211b35;--muted:#716b83;--primary:#7048e8;--primary2:#8b68ff;--border:#e7e2f2;--shadow:0 12px 35px #34205d12;--success:#16865b;--danger:#c53f5c}
+body.dark{--bg:#11101a;--surface:#1b1928;--surface2:#272338;--text:#f5f2ff;--muted:#b4adc9;--primary:#a18aff;--primary2:#7958ed;--border:#363047;--shadow:0 12px 35px #0004}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;transition:background .25s,color .25s}button,input,select{font:inherit}button,a{ -webkit-tap-highlight-color:transparent}button{cursor:pointer}a{color:inherit;text-decoration:none}.wrap{width:min(1180px,92%);margin:auto}
+header{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--surface) 92%,transparent);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+.nav{height:76px;display:flex;align-items:center;justify-content:space-between;gap:20px}.brand{display:flex;align-items:center;gap:11px;font-weight:850;font-size:1.25rem;letter-spacing:-.5px}.brand-icon{width:42px;height:42px;border-radius:14px;background:linear-gradient(135deg,var(--primary),#a98cff);display:grid;place-items:center;color:white;font-size:22px;box-shadow:0 8px 20px #7048e833}.brand span em{font-style:normal;color:var(--primary)}.nav-actions{display:flex;align-items:center;gap:10px}.nav-link{color:var(--muted);font-weight:650;font-size:.93rem;padding:10px 12px;border-radius:10px}.nav-link:hover{background:var(--surface2);color:var(--text)}.icon-btn,.menu-btn{border:1px solid var(--border);background:var(--surface);color:var(--text);width:42px;height:42px;border-radius:13px;display:grid;place-items:center;font-size:18px}.menu-btn{display:none}
+.hero{padding:62px 0 40px;overflow:hidden}.hero-grid{display:grid;grid-template-columns:1.15fr .85fr;align-items:center;gap:42px}.eyebrow{display:inline-flex;align-items:center;gap:8px;background:var(--surface2);border:1px solid var(--border);padding:8px 12px;border-radius:999px;color:var(--primary);font-size:.82rem;font-weight:750}.eyebrow i{width:7px;height:7px;border-radius:50%;background:#34b77a;display:inline-block}.hero h1{font-size:clamp(2.45rem,5.3vw,4.6rem);letter-spacing:-.055em;line-height:1.04;margin:20px 0 18px;max-width:680px}.hero h1 span{color:var(--primary)}.hero p{color:var(--muted);font-size:1.08rem;line-height:1.75;max-width:590px;margin:0 0 26px}.hero-buttons{display:flex;gap:12px;flex-wrap:wrap}.btn{border:0;border-radius:13px;padding:13px 18px;font-weight:750;display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:transform .18s,box-shadow .18s}.btn:hover{transform:translateY(-2px)}.btn-primary{background:linear-gradient(135deg,var(--primary),var(--primary2));color:#fff;box-shadow:0 10px 22px #7048e82b}.btn-secondary{background:var(--surface);color:var(--text);border:1px solid var(--border)}.hero-art{min-height:330px;position:relative;display:grid;place-items:center}.orb{width:min(330px,80vw);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 35% 25%,#c4b3ff,#8663ee 48%,#4d2da8);box-shadow:0 30px 80px #7149e83b;display:grid;place-items:center;position:relative}.orb:before,.orb:after{content:"";position:absolute;border:1px solid #a78bfa88;border-radius:50%;inset:-25px}.orb:after{inset:-48px;border-style:dashed;opacity:.7}.book-stack{position:relative;width:190px;height:175px;transform:rotate(-8deg)}.book{position:absolute;width:150px;height:42px;border-radius:7px 13px 13px 7px;left:20px;box-shadow:0 7px 0 #0002,0 14px 22px #24105c33;border-left:12px solid #ffffff70}.book:after{content:"";position:absolute;left:14px;right:12px;top:10px;height:2px;background:#ffffff77;box-shadow:0 7px #ffffff44}.book.b1{bottom:18px;background:#ffbd69;transform:rotate(7deg)}.book.b2{bottom:61px;background:#4ec9ad;transform:rotate(-3deg)}.book.b3{bottom:104px;background:#f58aa5;transform:rotate(4deg)}.spark{position:absolute;color:#fff;font-size:28px}.spark.s1{top:24%;right:14%}.spark.s2{bottom:22%;left:12%;font-size:22px}.float-card{position:absolute;background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:13px 16px;box-shadow:var(--shadow);font-size:.86rem;font-weight:750}.float-card small{display:block;color:var(--muted);font-weight:500;margin-top:4px}.fc1{top:11%;left:0}.fc2{right:0;bottom:12%}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:18px 0 38px}.stat{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:18px 20px;display:flex;gap:13px;align-items:center}.stat-icon{width:43px;height:43px;border-radius:13px;background:var(--surface2);display:grid;place-items:center;font-size:20px}.stat strong{display:block;font-size:1.15rem}.stat small{color:var(--muted)}
+.section{padding:28px 0 62px}.section-head{display:flex;justify-content:space-between;align-items:end;gap:20px;margin-bottom:24px}.section-head h2{font-size:clamp(1.65rem,3vw,2.35rem);letter-spacing:-.04em;margin:0 0 7px}.section-head p{color:var(--muted);margin:0;line-height:1.5}.search-panel{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:18px;box-shadow:var(--shadow);margin-bottom:24px}.search-row{display:grid;grid-template-columns:1fr 200px 170px;gap:10px}.search-wrap{position:relative}.search-wrap span{position:absolute;left:15px;top:50%;transform:translateY(-50%);font-size:18px;color:var(--muted)}.search-wrap input{padding-left:45px}.field{width:100%;background:var(--bg);color:var(--text);border:1px solid var(--border);border-radius:12px;padding:13px 14px;outline:none;min-height:48px}.field:focus{border-color:var(--primary);box-shadow:0 0 0 3px color-mix(in srgb,var(--primary) 15%,transparent)}.filter-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}.chip{border:1px solid var(--border);background:var(--surface);color:var(--muted);padding:9px 13px;border-radius:999px;font-size:.88rem;font-weight:700}.chip.active,.chip:hover{background:var(--primary);border-color:var(--primary);color:#fff}.results-line{display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:.9rem;margin:0 0 15px;gap:12px}.book-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}.book-card{background:var(--surface);border:1px solid var(--border);border-radius:18px;overflow:hidden;display:flex;flex-direction:column;transition:transform .2s,box-shadow .2s;min-width:0}.book-card:hover{transform:translateY(-4px);box-shadow:var(--shadow)}.cover{height:174px;position:relative;display:grid;place-items:center;overflow:hidden;background:linear-gradient(135deg,#6d45e8,#b7a4ff)}.cover:before{content:"";position:absolute;width:180px;height:180px;border:1px solid #ffffff40;border-radius:50%;left:-55px;top:-80px}.cover:after{content:"";position:absolute;width:120px;height:120px;border:1px solid #ffffff40;border-radius:50%;right:-28px;bottom:-60px}.cover .cover-emoji{font-size:55px;filter:drop-shadow(0 8px 8px #0002);z-index:1}.cover .cover-label{position:absolute;left:14px;top:13px;background:#ffffff35;color:#fff;padding:5px 8px;border-radius:7px;font-size:.68rem;font-weight:800;letter-spacing:.06em}.cover .cover-title{position:absolute;bottom:14px;left:15px;right:15px;color:#fff;font-weight:850;font-size:1.02rem;line-height:1.2;text-shadow:0 2px 7px #0003}.cover.math{background:linear-gradient(135deg,#186d93,#52c4d7)}.cover.history{background:linear-gradient(135deg,#b45c30,#f1b16d)}.cover.science{background:linear-gradient(135deg,#15866b,#6bd8a7)}.cover.language{background:linear-gradient(135deg,#9b3d82,#ed8fc7)}.cover.tech{background:linear-gradient(135deg,#343c69,#7387ed)}.cover.geography{background:linear-gradient(135deg,#4c7b3b,#b4d77b)}.cover.english{background:linear-gradient(135deg,#2850a3,#79a8ff)}.cover.art{background:linear-gradient(135deg,#9b4b35,#f0a18a)}.card-body{padding:16px;display:flex;flex-direction:column;gap:9px;flex:1}.category{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--primary);font-weight:850}.card-body h3{font-size:1.02rem;line-height:1.35;margin:0}.card-body p{font-size:.86rem;line-height:1.55;color:var(--muted);margin:0;flex:1}.meta{display:flex;align-items:center;justify-content:space-between;gap:8px;color:var(--muted);font-size:.77rem;margin-top:3px}.card-actions{display:flex;gap:8px;margin-top:7px}.card-actions .btn{padding:10px 11px;font-size:.83rem;flex:1}.save-btn{width:42px;flex:0 0 42px!important;padding:0!important}.save-btn.saved{color:#fff;background:#d54e86;border-color:#d54e86}.empty{grid-column:1/-1;background:var(--surface);border:1px dashed var(--border);border-radius:18px;text-align:center;padding:45px 20px;color:var(--muted)}.empty .big{font-size:42px;margin-bottom:10px}.empty h3{color:var(--text);margin:0 0 8px}.empty p{margin:0 0 18px}
+.info-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.info-card{border:1px solid var(--border);background:var(--surface);border-radius:18px;padding:22px}.info-card .i{width:46px;height:46px;border-radius:14px;background:var(--surface2);display:grid;place-items:center;font-size:22px;margin-bottom:15px}.info-card h3{margin:0 0 8px}.info-card p{margin:0;color:var(--muted);line-height:1.65;font-size:.92rem}.cta{background:linear-gradient(120deg,#4d2ba8,#7952e8 65%,#a78bfa);border-radius:24px;padding:32px;color:#fff;display:flex;align-items:center;justify-content:space-between;gap:22px;margin-bottom:65px}.cta h2{font-size:clamp(1.5rem,3vw,2.2rem);margin:0 0 8px;letter-spacing:-.03em}.cta p{margin:0;color:#eee7ff;line-height:1.6}.cta .btn{background:#fff;color:#5735bb;white-space:nowrap}
+footer{border-top:1px solid var(--border);padding:26px 0;color:var(--muted);font-size:.88rem}.footer-row{display:flex;justify-content:space-between;gap:18px;align-items:center}.footer-row strong{color:var(--text)}.toast{position:fixed;bottom:22px;left:50%;transform:translate(-50%,20px);background:var(--text);color:var(--surface);padding:12px 18px;border-radius:12px;box-shadow:var(--shadow);opacity:0;pointer-events:none;transition:.25s;z-index:60;font-size:.9rem;max-width:90%;text-align:center}.toast.show{opacity:1;transform:translate(-50%,0)}.modal-backdrop{position:fixed;inset:0;background:#100c1db8;display:none;align-items:center;justify-content:center;padding:18px;z-index:50}.modal-backdrop.show{display:flex}.modal{width:min(560px,100%);background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:22px;overflow:hidden;box-shadow:0 30px 100px #0004;max-height:90vh;overflow-y:auto}.modal-head{display:flex;align-items:center;justify-content:space-between;padding:20px 22px;border-bottom:1px solid var(--border)}.modal-head h3{margin:0;font-size:1.15rem}.modal-content{padding:22px}.modal-content p{color:var(--muted);line-height:1.7}.resource-box{background:var(--surface2);border-radius:13px;padding:14px;margin:16px 0;font-size:.9rem;line-height:1.55}.modal-actions{display:flex;gap:10px;flex-wrap:wrap}.modal-actions .btn{flex:1}
+@media(max-width:950px){.book-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.hero-grid{gap:22px}.search-row{grid-template-columns:1fr 170px}.search-row select:last-child{grid-column:1/-1}.hero-art{transform:scale(.9)}}
+@media(max-width:700px){.nav{height:66px}.nav-links{display:none;position:absolute;top:66px;left:0;right:0;background:var(--surface);border-bottom:1px solid var(--border);padding:12px 4%;flex-direction:column;align-items:stretch}.nav-links.open{display:flex}.nav-link{display:block}.menu-btn{display:grid}.hero{padding:40px 0 20px}.hero-grid{grid-template-columns:1fr}.hero-art{min-height:260px;max-width:450px;width:100%;margin:0 auto;transform:scale(.85)}.hero h1{font-size:clamp(2.5rem,11vw,3.6rem)}.stats{grid-template-columns:1fr;gap:9px;margin-bottom:24px}.stat{padding:13px 16px}.section{padding:24px 0 45px}.section-head{align-items:start;flex-direction:column}.search-row{grid-template-columns:1fr}.search-row select:last-child{grid-column:auto}.book-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.cover{height:145px}.card-body{padding:12px}.card-body h3{font-size:.94rem}.card-body p{font-size:.81rem}.card-actions{gap:6px}.card-actions .btn{font-size:.77rem;padding:9px 7px}.save-btn{width:36px;flex-basis:36px!important}.info-grid{grid-template-columns:1fr}.cta{padding:25px;align-items:flex-start;flex-direction:column}.footer-row{align-items:flex-start;flex-direction:column}}
+@media(max-width:380px){.book-grid{grid-template-columns:1fr}.cover{height:180px}.hero-buttons .btn{width:100%}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="#inicio" aria-label="EducaTech, início"><span class="brand-icon">📚</span><span>Educa<em>Tech</em></span></a>
+    <nav class="nav-links" id="navLinks" aria-label="Navegação principal">
+      <a class="nav-link" href="#inicio">Início</a>
+      <a class="nav-link" href="#biblioteca">Biblioteca</a>
+      <a class="nav-link" href="#como-funciona">Como funciona</a>
+      <a class="nav-link" href="#sobre">Sobre o projeto</a>
+    </nav>
+    <div class="nav-actions">
+      <button class="icon-btn" id="themeToggle" aria-label="Alternar tema" title="Alternar tema">🌙</button>
+      <button class="icon-btn" id="favoritesShortcut" aria-label="Ver favoritos" title="Ver favoritos">♡</button>
+      <button class="menu-btn" id="menuToggle" aria-label="Abrir menu" aria-expanded="false">☰</button>
+    </div>
+  </div>
+</header>
+<main>
+<section class="hero" id="inicio">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="eyebrow"><i></i> CONHECIMENTO AO SEU ALCANCE</span>
+      <h1>Seu próximo aprendizado está a <span>um clique.</span></h1>
+      <p>Encontre materiais de estudo, explore diferentes disciplinas e organize suas leituras em um só lugar. Uma biblioteca digital pensada para facilitar a rotina escolar.</p>
+      <div class="hero-buttons">
+        <a class="btn btn-primary" href="#biblioteca">🔎 Explorar biblioteca</a>
+        <button class="btn btn-secondary" id="showFavoritesHero">♡ Meus favoritos</button>
+      </div>
+    </div>
+    <div class="hero-art" aria-label="Ilustração de livros">
+      <div class="orb"><div class="book-stack"><div class="book b1"></div><div class="book b2"></div><div class="book b3"></div></div><span class="spark s1">✦</span><span class="spark s2">✧</span></div>
+      <div class="float-card fc1">📖 Aprenda no seu ritmo<small>Conteúdo organizado</small></div>
+      <div class="float-card fc2">✨ Explore novas ideias<small>Conhecimento para todos</small></div>
+    </div>
+  </div>
+</section>
+<div class="wrap stats" aria-label="Resumo da biblioteca">
+  <div class="stat"><div class="stat-icon">📚</div><div><strong id="statMaterials">12</strong><small>materiais cadastrados</small></div></div>
+  <div class="stat"><div class="stat-icon">🧭</div><div><strong id="statSubjects">8</strong><small>áreas de conhecimento</small></div></div>
+  <div class="stat"><div class="stat-icon">💜</div><div><strong id="statFavorites">0</strong><small>materiais favoritos</small></div></div>
+</div>
+<section class="section" id="biblioteca">
+  <div class="wrap">
+    <div class="section-head">
+      <div><h2>Explore a biblioteca</h2><p>Pesquise por título, disciplina ou palavra-chave.</p></div>
+      <button class="btn btn-secondary" id="clearFilters">↺ Limpar filtros</button>
+    </div>
+    <div class="search-panel">
+      <div class="search-row">
+        <label class="search-wrap"><span>⌕</span><input class="field" id="searchInput" type="search" placeholder="Ex.: frações, literatura, meio ambiente..." autocomplete="off" aria-label="Pesquisar materiais"></label>
+        <select class="field" id="subjectSelect" aria-label="Filtrar por disciplina"><option value="Todas">Todas as disciplinas</option></select>
+        <select class="field" id="sortSelect" aria-label="Ordenar materiais"><option value="recommended">Recomendados</option><option value="title">Título: A–Z</option><option value="subject">Disciplina</option></select>
+      </div>
+      <div class="filter-row" id="categoryChips" aria-label="Filtros rápidos"></div>
+    </div>
+    <div class="results-line"><span id="resultsCount" aria-live="polite">Mostrando materiais</span><span id="filterState"></span></div>
+    <div class="book-grid" id="bookGrid"></div>
+  </div>
+</section>
+<section class="section" id="como-funciona">
+  <div class="wrap">
+    <div class="section-head"><div><h2>Aprender ficou mais simples</h2><p>Recursos pensados para ajudar na sua rotina de estudos.</p></div></div>
+    <div class="info-grid">
+      <article class="info-card"><div class="i">🔍</div><h3>Encontre rápido</h3><p>Use a busca e os filtros por disciplina para encontrar o assunto de que precisa, sem perder tempo.</p></article>
+      <article class="info-card"><div class="i">🔖</div><h3>Guarde seus favoritos</h3><p>Marque os materiais importantes. Seus favoritos ficam salvos neste navegador para você consultar depois.</p></article>
+      <article class="info-card"><div class="i">🌱</div><h3>Estude com autonomia</h3><p>Explore os temas, abra as referências de estudo e monte seu próprio caminho de aprendizagem.</p></article>
+    </div>
+  </div>
+</section>
+<section class="wrap" id="sobre">
+  <div class="cta"><div><h2>Conhecimento transforma o futuro.</h2><p>Uma iniciativa de tecnologia e educação para tornar o estudo mais acessível e organizado.</p></div><a class="btn" href="#biblioteca">Encontrar materiais →</a></div>
+</section>
+</main>
+<footer><div class="wrap footer-row"><div><strong>📚 EducaTech</strong> · Biblioteca Digital Escolar</div><div>Projeto educacional demonstrativo · Feito para aprender e compartilhar</div></div></footer>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<div class="modal-backdrop" id="modalBackdrop" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal">
+    <div class="modal-head"><h3 id="modalTitle">Detalhes do material</h3><button class="icon-btn" id="closeModal" aria-label="Fechar janela">✕</button></div>
+    <div class="modal-content" id="modalContent"></div>
+  </div>
+</div>
+<script>
+(() => {
+'use strict';
+const materials = [
+ {id:1,title:'Matemática: guia de frações',subject:'Matemática',type:'Guia de estudo',level:'Fundamental II',emoji:'➗',theme:'math',description:'Entenda frações, equivalência, simplificação e operações com exemplos práticos.',keywords:'números divisão porcentagem operações',resource:'https://pt.khanacademy.org/math/arithmetic/fraction-arithmetic',resourceLabel:'Estudar frações na Khan Academy'},
+ {id:2,title:'Aventuras na literatura brasileira',subject:'Português',type:'Leitura',level:'Fundamental II e Médio',emoji:'📜',theme:'language',description:'Explore autores, estilos literários e obras importantes da literatura brasileira.',keywords:'livros leitura redação gramática interpretação',resource:'https://www.dominiopublico.gov.br/',resourceLabel:'Acessar o Domínio Público'},
+ {id:3,title:'História do Brasil em contexto',subject:'História',type:'Material de apoio',level:'Fundamental II e Médio',emoji:'🏛️',theme:'history',description:'Uma visão geral de períodos e acontecimentos que marcaram a formação do Brasil.',keywords:'colonização império república cultura',resource:'https://brasilescola.uol.com.br/historiab',resourceLabel:'Consultar conteúdo de História do Brasil'},
+ {id:4,title:'Ecossistemas e meio ambiente',subject:'Ciências',type:'Guia de estudo',level:'Fundamental II',emoji:'🌿',theme:'science',description:'Conheça cadeias alimentares, biodiversidade, ecossistemas e sustentabilidade.',keywords:'biologia natureza animais plantas ecologia',resource:'https://brasilescola.uol.com.br/biologia/ecologia.htm',resourceLabel:'Estudar ecologia'},
+ {id:5,title:'Geografia: nosso planeta',subject:'Geografia',type:'Material de apoio',level:'Fundamental II',emoji:'🌎',theme:'geography',description:'Aprenda sobre mapas, continentes, clima, população e paisagens geográficas.',keywords:'mapas continentes clima relevo países',resource:'https://brasilescola.uol.com.br/geografia',resourceLabel:'Explorar conteúdos de Geografia'},
+ {id:6,title:'Inglês para o dia a dia',subject:'Inglês',type:'Guia de estudo',level:'Todos os níveis',emoji:'💬',theme:'english',description:'Vocabulário básico, expressões úteis e recursos para praticar inglês.',keywords:'english vocabulary verbos idioma tradução',resource:'https://learnenglish.britishcouncil.org/',resourceLabel:'Praticar inglês no British Council'},
+ {id:7,title:'Introdução à programação',subject:'Informática',type:'Curso gratuito',level:'Iniciante',emoji:'💻',theme:'tech',description:'Dê os primeiros passos em lógica, programação e criação de projetos digitais.',keywords:'computador tecnologia javascript html css código',resource:'https://developer.mozilla.org/pt-BR/docs/Learn',resourceLabel:'Aprender desenvolvimento web na MDN'},
+ {id:8,title:'Arte, cores e criatividade',subject:'Arte',type:'Inspiração',level:'Todos os níveis',emoji:'🎨',theme:'art',description:'Descubra elementos visuais, técnicas criativas e diferentes formas de expressão artística.',keywords:'desenho pintura música cultura criatividade',resource:'https://artsandculture.google.com/',resourceLabel:'Explorar arte e cultura'},
+ {id:9,title:'Álgebra sem mistério',subject:'Matemática',type:'Exercícios',level:'Fundamental II e Médio',emoji:'📐',theme:'math',description:'Revise expressões algébricas, equações e resolução de problemas passo a passo.',keywords:'equação incógnita cálculo números exercícios',resource:'https://pt.khanacademy.org/math/algebra',resourceLabel:'Praticar álgebra na Khan Academy'},
+ {id:10,title:'Produção de texto e redação',subject:'Português',type:'Guia prático',level:'Fundamental II e Médio',emoji:'✍️',theme:'language',description:'Organize ideias, construa parágrafos e aprenda a revisar seus textos.',keywords:'escrita redação texto gramática argumento',resource:'https://www.escrevendoofuturo.org.br/',resourceLabel:'Acessar materiais de escrita'},
+ {id:11,title:'Corpo humano e saúde',subject:'Ciências',type:'Material de apoio',level:'Fundamental II',emoji:'🧬',theme:'science',description:'Conheça sistemas do corpo humano e conceitos básicos de saúde e bem-estar.',keywords:'anatomia corpo células biologia saúde',resource:'https://brasilescola.uol.com.br/biologia',resourceLabel:'Consultar conteúdos de Biologia'},
+ {id:12,title:'Cidadania e sociedade',subject:'História',type:'Leitura',level:'Fundamental II e Médio',emoji:'🤝',theme:'history',description:'Reflita sobre cidadania, direitos, participação social e convivência democrática.',keywords:'sociedade direitos cultura cidadania política',resource:'https://www12.senado.leg.br/jovemsenador',resourceLabel:'Conhecer o Jovem Senador'}
+];
+const $ = s => document.querySelector(s);
+const grid = $('#bookGrid'), searchInput = $('#searchInput'), subjectSelect = $('#subjectSelect'), sortSelect = $('#sortSelect');
+let activeCategory = 'Todas', favoritesOnly = false, toastTimer;
+const safeStorage = {
+ get(key, fallback){try{const v=localStorage.getItem(key);return v===null?fallback:JSON.parse(v)}catch{return fallback}},
+ set(key,value){try{localStorage.setItem(key,JSON.stringify(value))}catch{}}
+};
+let favorites = new Set(safeStorage.get('educatech-favorites',[]));
+const subjects = ['Todas',...new Set(materials.map(m=>m.subject))];
+subjects.slice(1).forEach(s=>{const opt=document.createElement('option');opt.value=s;opt.textContent=s;subjectSelect.appendChild(opt)});
+const chips = $('#categoryChips');
+['Todas',...subjects.slice(1)].forEach(s=>{
+ const b=document.createElement('button');b.type='button';b.className='chip'+(s==='Todas'?' active':'');b.textContent=s;b.dataset.category=s;
+ b.addEventListener('click',()=>{activeCategory=s;subjectSelect.value=s;updateChips();renderBooks();});chips.appendChild(b);
+});
+function updateChips(){chips.querySelectorAll('.chip').forEach(b=>b.classList.toggle('active',b.dataset.category===activeCategory))}
+function normalize(s){return String(s).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim()}
+function getFiltered(){
+ const q=normalize(searchInput.value), subject=subjectSelect.value;
+ let list=materials.filter(m=>{
+   const hay=normalize([m.title,m.subject,m.type,m.level,m.description,m.keywords].join(' '));
+   return (!q||hay.includes(q))&&(subject==='Todas'||m.subject===subject)&&(!favoritesOnly||favorites.has(m.id));
+ });
+ if(sortSelect.value==='title')list.sort((a,b)=>a.title.localeCompare(b.title,'pt-BR'));
+ if(sortSelect.value==='subject')list.sort((a,b)=>a.subject.localeCompare(b.subject,'pt-BR')||a.title.localeCompare(b.title,'pt-BR'));
+ return list;
+}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function renderBooks(){
+ const list=getFiltered();
+ $('#resultsCount').textContent=`${list.length} ${list.length===1?'material encontrado':'materiais encontrados'}`;
+ $('#filterState').textContent=favoritesOnly?'♡ Exibindo favoritos':'';
+ $('#statMaterials').textContent=materials.length;
+ $('#statSubjects').textContent=subjects.length-1;
+ $('#statFavorites').textContent=favorites.size;
+ if(!list.length){
+  grid.innerHTML=`<div class="empty"><div class="big">${favoritesOnly?'♡':'🔎'}</div><h3>${favoritesOnly?'Você ainda não tem favoritos':'Nenhum material encontrado'}</h3><p>${favoritesOnly?'Toque no coração de um material para salvá-lo aqui.':'Tente outro termo ou remova algum filtro para ver mais resultados.'}</p><button class="btn btn-primary" id="emptyReset">Limpar busca e filtros</button></div>`;
+  $('#emptyReset').addEventListener('click',clearFilters);return;
+ }
+ grid.innerHTML=list.map(m=>`<article class="book-card">
+  <div class="cover ${m.theme}"><span class="cover-label">${escapeHtml(m.type)}</span><span class="cover-emoji" aria-hidden="true">${m.emoji}</span><span class="cover-title">${escapeHtml(m.title)}</span></div>
+  <div class="card-body"><span class="category">${escapeHtml(m.subject)}</span><h3>${escapeHtml(m.title)}</h3><p>${escapeHtml(m.description)}</p><div class="meta"><span>🎓 ${escapeHtml(m.level)}</span><span>📘 Material</span></div>
+  <div class="card-actions"><button class="btn btn-primary open-material" data-id="${m.id}">Ver material ↗</button><button class="btn btn-secondary save-btn ${favorites.has(m.id)?'saved':''}" data-save="${m.id}" aria-label="${favorites.has(m.id)?'Remover dos favoritos':'Adicionar aos favoritos'}" title="${favorites.has(m.id)?'Remover dos favoritos':'Adicionar aos favoritos'}">${favorites.has(m.id)?'♥':'♡'}</button></div></div></article>`).join('');
+ grid.querySelectorAll('.open-material').forEach(b=>b.addEventListener('click',()=>openMaterial(Number(b.dataset.id))));
+ grid.querySelectorAll('[data-save]').forEach(b=>b.addEventListener('click',()=>toggleFavorite(Number(b.dataset.save))));
+}
+function toggleFavorite(id){
+ if(favorites.has(id)){favorites.delete(id);showToast('Material removido dos favoritos.')}
+ else{favorites.add(id);showToast('Material salvo nos favoritos!')}
+ safeStorage.set('educatech-favorites',[...favorites]);renderBooks();
+}
+function showToast(message){const t=$('#toast');t.textContent=message;t.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('show'),2400)}
+function openMaterial(id){
+ const m=materials.find(x=>x.id===id);if(!m)return;
+ $('#modalTitle').textContent=m.title;
+ $('#modalContent').innerHTML=`<span class="category">${escapeHtml(m.subject)} · ${escapeHtml(m.type)}</span><p>${escapeHtml(m.description)}</p><div class="resource-box"><strong>📚 Sobre este material</strong><br>Área: ${escapeHtml(m.subject)}<br>Nível indicado: ${escapeHtml(m.level)}<br><br>O botão abaixo abre um recurso externo de estudo. A disponibilidade e o conteúdo são mantidos pelo site de destino.</div><div class="modal-actions"><a class="btn btn-primary" href="${m.resource}" target="_blank" rel="noopener noreferrer">Abrir recurso ↗</a><button class="btn btn-secondary" id="modalSave">${favorites.has(id)?'♥ Salvo nos favoritos':'♡ Salvar favorito'}</button></div>`;
+ $('#modalSave').addEventListener('click',()=>{toggleFavorite(id);$('#modalSave').textContent=favorites.has(id)?'♥ Salvo nos favoritos':'♡ Salvar favorito';});
+ $('#modalBackdrop').classList.add('show');$('#closeModal').focus();
+}
+function closeModal(){$('#modalBackdrop').classList.remove('show')}
+function clearFilters(){searchInput.value='';subjectSelect.value='Todas';sortSelect.value='recommended';activeCategory='Todas';favoritesOnly=false;updateChips();renderBooks()}
+function showFavorites(){favoritesOnly=true;activeCategory='Todas';subjectSelect.value='Todas';updateChips();renderBooks();$('#biblioteca').scrollIntoView({behavior:'smooth'});if(!favorites.size)showToast('Ainda não há favoritos. Toque em ♡ em um material para salvar.')}
+searchInput.addEventListener('input',renderBooks);
+subjectSelect.addEventListener('change',()=>{activeCategory=subjectSelect.value;updateChips();renderBooks()});
+sortSelect.addEventListener('change',renderBooks);
+$('#clearFilters').addEventListener('click',clearFilters);
+$('#themeToggle').addEventListener('click',()=>{
+ const dark=document.body.classList.toggle('dark');safeStorage.set('educatech-theme',dark?'dark':'light');$('#themeToggle').textContent=dark?'☀️':'🌙';$('#themeToggle').title=dark?'Ativar tema claro':'Ativar tema escuro';
+});
+if(safeStorage.get('educatech-theme','light')==='dark'){document.body.classList.add('dark');$('#themeToggle').textContent='☀️';$('#themeToggle').title='Ativar tema claro'}
+$('#favoritesShortcut').addEventListener('click',showFavorites);
+$('#showFavoritesHero').addEventListener('click',showFavorites);
+$('#closeModal').addEventListener('click',closeModal);
+$('#modalBackdrop').addEventListener('click',e=>{if(e.target===$('#modalBackdrop'))closeModal()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});
+$('#menuToggle').addEventListener('click',()=>{const nav=$('#navLinks'),open=nav.classList.toggle('open');$('#menuToggle').setAttribute('aria-expanded',String(open));$('#menuToggle').textContent=open?'✕':'☰'});
+$('#navLinks').querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{$('#navLinks').classList.remove('open');$('#menuToggle').setAttribute('aria-expanded','false');$('#menuToggle').textContent='☰'}));
+renderBooks();
+})();
+</script>
+</body>
+</html> 
+Irmão, se preferir copiar tudo de uma vez, aqui está uma versão completa e funcional do **EducaTech**, em um único `index.html`. 👇
+
+<CodeBlock language="html" editable>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EducaTech | Biblioteca Digital</title>
+<style>
+:root {
+  --bg:#f7f5fc; --card:#fff; --text:#241d38;
+  --muted:#777087; --primary:#7048e8; --border:#e5e0ef;
+}
+body.dark {
+  --bg:#11101a; --card:#1d1a2a; --text:#f5f2ff;
+  --muted:#b7afca; --primary:#a18aff; --border:#373047;
+}
+* { box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
+  margin:0; font-family:Arial,Helvetica,sans-serif;
+  background:var(--bg); color:var(--text); transition:.25s;
+}
+button,input,select { font:inherit; }
+button,a { cursor:pointer; }
+a { text-decoration:none; color:inherit; }
+.container { width:min(1150px,92%); margin:auto; }
+header {
+  position:sticky; top:0; z-index:5;
+  background:var(--card); border-bottom:1px solid var(--border);
+}
+nav {
+  min-height:72px; display:flex; align-items:center;
+  justify-content:space-between; gap:15px;
+}
+.logo { font-size:23px; font-weight:900; }
+.logo span { color:var(--primary); }
+.navlinks { display:flex; gap:20px; align-items:center; }
+.navlinks a { color:var(--muted); font-weight:bold; }
+button,.btn {
+  border:0; border-radius:11px; padding:12px 16px;
+  background:var(--primary); color:white; font-weight:bold;
+}
+.secondary { background:var(--card); color:var(--text); border:1px solid var(--border); }
+.hero {
+  padding:65px 0; display:grid; grid-template-columns:1.2fr .8fr;
+  gap:35px; align-items:center;
+}
+.tag {
+  display:inline-block; padding:8px 12px; border-radius:30px;
+  background:var(--card); color:var(--primary); font-weight:bold;
+}
+h1 { font-size:clamp(38px,6vw,65px); line-height:1.05; margin:20px 0; }
+h1 span { color:var(--primary); }
+p { line-height:1.7; color:var(--muted); }
+.hero-art {
+  min-height:280px; border-radius:35px;
+  background:linear-gradient(135deg,#7048e8,#b9a7ff);
+  display:grid; place-items:center; font-size:100px;
+}
+.stats { display:grid; grid-template-columns:repeat(3,1fr); gap:15px; margin-bottom:40px; }
+.stat,.panel,.card,.info {
+  background:var(--card); border:1px solid var(--border);
+  border-radius:17px; padding:20px;
+}
+.stat strong { display:block; font-size:25px; }
+.stat span { color:var(--muted); font-size:14px; }
+section { padding:25px 0 55px; }
+.section-title { font-size:32px; margin-bottom:5px; }
+.searchbar {
+  display:grid; grid-template-columns:1fr 200px 170px;
+  gap:10px; margin:22px 0 14px;
+}
+input,select {
+  width:100%; padding:13px; border-radius:10px;
+  border:1px solid var(--border); background:var(--bg);
+  color:var(--text); outline:none;
+}
+input:focus,select:focus { border-color:var(--primary); }
+.chips { display:flex; flex-wrap:wrap; gap:8px; margin:15px 0 20px; }
+.chip {
+  border:1px solid var(--border); background:var(--card);
+  color:var(--muted); border-radius:30px; padding:9px 13px;
+}
+.chip.active { background:var(--primary); color:white; }
+.grid { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; }
+.book {
+  padding:0; overflow:hidden; display:flex; flex-direction:column;
+  border:1px solid var(--border); border-radius:16px;
+  background:var(--card); transition:.2s;
+}
+.book:hover { transform:translateY(-4px); }
+.cover {
+  height:145px; display:grid; place-items:center;
+  font-size:55px; color:white; background:linear-gradient(135deg,#7048e8,#b9a7ff);
+}
+.cover.math { background:linear-gradient(135deg,#186d93,#52c4d7); }
+.cover.history { background:linear-gradient(135deg,#b45c30,#f1b16d); }
+.cover.science { background:linear-gradient(135deg,#15866b,#6bd8a7); }
+.cover.language { background:linear-gradient(135deg,#9b3d82,#ed8fc7); }
+.cover.tech { background:linear-gradient(135deg,#343c69,#7387ed); }
+.cover.geography { background:linear-gradient(135deg,#4c7b3b,#b4d77b); }
+.cover.english { background:linear-gradient(135deg,#2850a3,#79a8ff); }
+.cover.art { background:linear-gradient(135deg,#9b4b35,#f0a18a); }
+.book-content { padding:16px; display:flex; flex-direction:column; gap:9px; flex:1; }
+.category { color:var(--primary); text-transform:uppercase; font-size:12px; font-weight:bold; }
+.book h3 { margin:0; font-size:17px; }
+.book p { font-size:14px; margin:0; flex:1; }
+.book-actions { display:flex; gap:8px; margin-top:8px; }
+.book-actions button { flex:1; padding:10px 7px; font-size:13px; }
+.favorite { background:var(--card); color:var(--text); border:1px solid var(--border); }
+.favorite.saved { background:#d54e86; color:white; }
+.empty { grid-column:1/-1; text-align:center; padding:40px; }
+.info-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:15px; }
+.info h3 { margin-top:0; }
+footer { border-top:1px solid var(--border); padding:25px 0; text-align:center; color:var(--muted); }
+.toast {
+  position:fixed; bottom:20px; left:50%; transform:translateX(-50%);
+  background:var(--text); color:var(--bg); padding:13px 18px;
+  border-radius:10px; display:none; z-index:10;
+}
+.toast.show { display:block; }
+.modal-bg {
+  display:none; position:fixed; inset:0; z-index:8;
+  background:#0009; align-items:center; justify-content:center; padding:20px;
+}
+.modal-bg.show { display:flex; }
+.modal {
+  width:min(520px,100%); padding:24px; border-radius:18px;
+  background:var(--card); color:var(--text);
+}
+.modal h2 { margin-top:0; }
+@media(max-width:900px) {
+  .grid { grid-template-columns:repeat(3,1fr); }
+  .searchbar { grid-template-columns:1fr 1fr; }
+  .searchbar input { grid-column:1/-1; }
+}
+@media(max-width:650px) {
+  .navlinks { display:none; }
+  .hero { grid-template-columns:1fr; padding:40px 0; }
+  .hero-art { min-height:200px; }
+  .stats { grid-template-columns:1fr; }
+  .grid { grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }
+  .book-content { padding:12px; }
+  .info-grid { grid-template-columns:1fr; }
+  .searchbar { grid-template-columns:1fr; }
+  .searchbar input { grid-column:auto; }
+}
+@media(max-width:380px) {
+  .grid { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+<header>
+  <nav class="container">
+    <a class="logo" href="#inicio">📚 Educa<span>Tech</span></a>
+    <div class="navlinks">
+      <a href="#inicio">Início</a>
+      <a href="#biblioteca">Biblioteca</a>
+      <a href="#sobre">Sobre</a>
+    </div>
+    <button id="themeBtn" class="secondary" aria-label="Alternar tema">🌙</button>
+  </nav>
+</header>
+
+<main class="container">
+  <section class="hero" id="inicio">
+    <div>
+      <span class="tag">✦ CONHECIMENTO AO SEU ALCANCE</span>
+      <h1>Aprenda mais.<br>Explore o <span>conhecimento.</span></h1>
+      <p>Uma biblioteca digital escolar para pesquisar assuntos, descobrir materiais educativos e organizar seus estudos em um só lugar.</p>
+      <a class="btn" href="#biblioteca">🔎 Explorar biblioteca</a>
+      <button class="secondary" id="favoritesBtn">♡ Meus favoritos</button>
+    </div>
+    <div class="hero-art">📚</div>
+  </section>
+
+  <div class="stats">
+    <div class="stat"><strong id="totalMaterials">12</strong><span>Materiais disponíveis</span></div>
+    <div class="stat"><strong id="totalSubjects">8</strong><span>Áreas de conhecimento</span></div>
+    <div class="stat"><strong id="totalFavorites">0</strong><span>Favoritos salvos</span></div>
+  </div>
+
+  <section id="biblioteca">
+    <h2 class="section-title">Explore a biblioteca</h2>
+    <p>Pesquise por tema ou escolha uma disciplina para encontrar conteúdos.</p>
+
+    <div class="panel">
+      <div class="searchbar">
+        <input id="search" type="search" placeholder="🔎 Buscar material, assunto ou palavra-chave...">
+        <select id="subject">
+          <option value="Todas">Todas as disciplinas</option>
+        </select>
+        <select id="sort">
+          <option value="recommended">Recomendados</option>
+          <option value="title">Título A–Z</option>
+          <option value="subject">Disciplina</option>
+        </select>
+      </div>
+      <div class="chips" id="chips"></div>
+      <button class="secondary" id="clear">↺ Limpar filtros</button>
+      <button id="allMaterials">📚 Todos os materiais</button>
+    </div>
+
+    <p id="results" aria-live="polite"></p>
+    <div class="grid" id="grid"></div>
+  </section>
+
+  <section id="sobre">
+    <h2 class="section-title">Como a EducaTech ajuda?</h2>
+    <div class="info-grid">
+      <article class="info"><h3>🔍 Pesquisa rápida</h3><p>Encontre materiais usando palavras-chave e filtros por disciplina.</p></article>
+      <article class="info"><h3>♡ Favoritos</h3><p>Salve conteúdos importantes. Eles ficam guardados neste navegador.</p></article>
+      <article class="info"><h3>🌱 Aprendizado</h3><p>Explore recursos externos para continuar estudando de forma gratuita.</p></article>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="container">📚 <strong>EducaTech</strong> — Biblioteca Digital Escolar<br>Projeto educacional para a culminância escolar.</div>
+</footer>
+
+<div class="toast" id="toast" role="status"></div>
+<div class="modal-bg" id="modalBg">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <button class="secondary" id="closeModal" style="float:right">✕ Fechar</button>
+    <h2 id="modalTitle">Material</h2>
+    <div id="modalContent"></div>
+  </div>
+</div>
+
+<script>
+(() => {
+"use strict";
+
+const materials = [
+ {id:1,title:"Matemática: guia de frações",subject:"Matemática",type:"Guia de estudo",level:"Fundamental II",emoji:"➗",theme:"math",description:"Entenda frações, equivalência, simplificação e operações com exemplos práticos.",keywords:"números divisão porcentagem operações",url:"https://pt.khanacademy.org/math/arithmetic/fraction-arithmetic"},
+ {id:2,title:"Literatura brasileira",subject:"Português",type:"Leitura",level:"Fundamental II e Médio",emoji:"📜",theme:"language",description:"Explore autores, estilos literários e obras importantes da literatura brasileira.",keywords:"livros leitura redação gramática interpretação",url:"https://www.dominiopublico.gov.br/"},
+ {id:3,title:"História do Brasil",subject:"História",type:"Material de apoio",level:"Fundamental II e Médio",emoji:"🏛️",theme:"history",description:"Conheça períodos e acontecimentos que marcaram a formação do Brasil.",keywords:"colonização império república cultura",url:"https://brasilescola.uol.com.br/historiab"},
+ {id:4,title:"Ecossistemas e meio ambiente",subject:"Ciências",type:"Guia de estudo",level:"Fundamental II",emoji:"🌿",theme:"science",description:"Aprenda sobre cadeias alimentares, biodiversidade e sustentabilidade.",keywords:"biologia natureza animais plantas ecologia",url:"https://brasilescola.uol.com.br/biologia/ecologia.htm"},
+ {id:5,title:"Geografia: nosso planeta",subject:"Geografia",type:"Material de apoio",level:"Fundamental II",emoji:"🌎",theme:"geography",description:"Estude mapas, continentes, clima, população e paisagens geográficas.",keywords:"mapas continentes clima relevo países",url:"https://brasilescola.uol.com.br/geografia"},
+ {id:6,title:"Inglês para o dia a dia",subject:"Inglês",type:"Guia de estudo",level:"Todos os níveis",emoji:"💬",theme:"english",description:"Vocabulário básico, expressões úteis e recursos para praticar inglês.",keywords:"english vocabulary verbos idioma tradução",url:"https://learnenglish.britishcouncil.org/"},
+ {id:7,title:"Introdução à programação",subject:"Informática",type:"Curso gratuito",level:"Iniciante",emoji:"💻",theme:"tech",description:"Dê os primeiros passos em lógica, programação e criação de projetos digitais.",keywords:"computador tecnologia javascript html css código",url:"https://developer.mozilla.org/pt-BR/docs/Learn"},
+ {id:8,title:"Arte, cores e criatividade",subject:"Arte",type:"Inspiração",level:"Todos os níveis",emoji:"🎨",theme:"art",description:"Descubra técnicas criativas e diferentes formas de expressão artística.",keywords:"desenho pintura música cultura criatividade",url:"https://artsandculture.google.com/"},
+ {id:9,title:"Álgebra sem mistério",subject:"Matemática",type:"Exercícios",level:"Fundamental II e Médio",emoji:"📐",theme:"math",description:"Revise expressões algébricas, equações e resolução de problemas.",keywords:"equação incógnita cálculo números exercícios",url:"https://pt.khanacademy.org/math/algebra"},
+ {id:10,title:"Produção de texto e redação",subject:"Português",type:"Guia prático",level:"Fundamental II e Médio",emoji:"✍️",theme:"language",description:"Organize ideias, construa parágrafos e aprenda a revisar seus textos.",keywords:"escrita redação texto gramática argumento",url:"https://www.escrevendoofuturo.org.br/"},
+ {id:11,title:"Corpo humano e saúde",subject:"Ciências",type:"Material de apoio",level:"Fundamental II",emoji:"🧬",theme:"science",description:"Conheça sistemas do corpo humano e conceitos básicos de biologia.",keywords:"anatomia corpo células biologia saúde",url:"https://brasilescola.uol.com.br/biologia"},
+ {id:12,title:"Cidadania e sociedade",subject:"História",type:"Leitura",level:"Fundamental II e Médio",emoji:"🤝",theme:"history",description:"Reflita sobre cidadania, direitos, participação social e convivência.",keywords:"sociedade direitos cultura cidadania política",url:"https://www12.senado.leg.br/jovemsenador"}
+];
+
+const $ = selector => document.querySelector(selector);
+let favorites = new Set(readStorage("educatech-favorites", []));
+let favoritesOnly = false;
+let activeSubject = "Todas";
+let toastTimer;
+
+function readStorage(key, fallback) {
+  try {
+    const value = localStorage.getItem(key);
+    return value === null ? fallback : JSON.parse(value);
+  } catch {
+    return fallback;
+  }
+}
+function writeStorage(key, value) {
+  try { localStorage.setItem(key, JSON.stringify(value)); } catch {}
+}
+function normalize(text) {
+  return String(text).normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
+}
+function notify(message) {
+  const toast = $("#toast");
+  toast.textContent = message;
+  toast.classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toast.classList.remove("show"), 2300);
+}
+function escapeHTML(text) {
+  return String(text).replace(/[&<>"']/g, char => ({
+    "&":"&amp;", "<":"&lt;", ">":"&gt;",
+    '"':"&quot;", "'":"&#39;"
+  })[char]);
+}
+
+const subjects = ["Todas", ...new Set(materials.map(item => item.subject))];
+subjects.slice(1).forEach(subject => {
+  const option = document.createElement("option");
+  option.value = subject;
+  option.textContent = subject;
+  $("#subject").appendChild(option);
+});
+
+subjects.forEach(subject => {
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = "chip" + (subject === "Todas" ? " active" : "");
+  button.textContent = subject;
+  button.addEventListener("click", () => {
+    activeSubject = subject;
+    $("#subject").value = subject;
+    updateChips();
+    render();
+  });
+  $("#chips").appendChild(button);
+});
+
+function updateChips() {
+  document.querySelectorAll(".chip").forEach(button => {
+    button.classList.toggle("active", button.textContent === activeSubject);
+  });
+}
+
+function getFilteredMaterials() {
+  const query = normalize($("#search").value);
+  let list = materials.filter(item => {
+    const searchable = normalize([
+      item.title, item.subject, item.type, item.level,
+      item.description, item.keywords
+    ].join(" "));
+    return (!query || searchable.includes(query)) &&
+      (activeSubject === "Todas" || item.subject === activeSubject) &&
+      (!favoritesOnly || favorites.has(item.id));
+  });
+
+  if ($("#sort").value === "title") {
+    list.sort((a,b) => a.title.localeCompare(b.title, "pt-BR"));
+  }
+  if ($("#sort").value === "subject") {
+    list.sort((a,b) => a.subject.localeCompare(b.subject, "pt-BR"));
+  }
+  return list;
+}
+
+function render() {
+  const list = getFilteredMaterials();
+  $("#results").textContent =
+    `${list.length} ${list.length === 1 ? "material encontrado" : "materiais encontrados"}`;
+  $("#totalMaterials").textContent = materials.length;
+  $("#totalSubjects").textContent = subjects.length - 1;
+  $("#totalFavorites").textContent = favorites.size;
+
+  if (!list.length) {
+    $("#grid").innerHTML = `
+      <div class="empty">
+        <h3>Nenhum material encontrado 😕</h3>
+        <p>Tente outra busca ou limpe os filtros.</p>
+        <button id="resetEmpty">Limpar filtros</button>
+      </div>`;
+    $("#resetEmpty").addEventListener("click", clearFilters);
+    return;
+  }
+
+  $("#grid").innerHTML = list.map(item => `
+    <article class="book">
+      <div class="cover ${item.theme}">${item.emoji}</div>
+      <div class="book-content">
+        <span class="category">${escapeHTML(item.subject)} · ${escapeHTML(item.type)}</span>
+        <h3>${escapeHTML(item.title)}</h3>
+        <p>${escapeHTML(item.description)}</p>
+        <small style="color:var(--muted)">🎓 ${escapeHTML(item.level)}</small>
+        <div class="book-actions">
+          <button data-open="${item.id}">Ver material ↗</button>
+          <button class="favorite ${favorites.has(item.id) ? "saved" : ""}"
+            data-favorite="${item.id}" aria-label="Alternar favorito">
+            ${favorites.has(item.id) ? "♥" : "♡"}
+          </button>
+        </div>
+      </div>
+    </article>
+  `).join("");
+
+  document.querySelectorAll("[data-open]").forEach(button => {
+    button.addEventListener("click", () => openMaterial(Number(button.dataset.open)));
+  });
+  document.querySelectorAll("[data-favorite]").forEach(button => {
+    button.addEventListener("click", () => toggleFavorite(Number(button.dataset.favorite)));
+  });
+}
+
+function toggleFavorite(id) {
+  if (favorites.has(id)) {
+    favorites.delete(id);
+    notify("Material removido dos favoritos.");
+  } else {
+    favorites.add(id);
+    notify("Material salvo nos favoritos! 💜");
+  }
+  writeStorage("educatech-favorites", [...favorites]);
+  render();
+}
+
+function openMaterial(id) {
+  const item = materials.find(material => material.id === id);
+  if (!item) return;
+  $("#modalTitle").textContent = item.title;
+  $("#modalContent").innerHTML = `
+    <p><strong>Disciplina:</strong> ${escapeHTML(item.subject)}</p>
+    <p><strong>Tipo:</strong> ${escapeHTML(item.type)}</p>
+    <p><strong>Nível:</strong> ${escapeHTML(item.level)}</p>
+    <p>${escapeHTML(item.description)}</p>
+    <p>O recurso será aberto no site externo responsável pelo conteúdo.</p>
+    <p><a class="btn" href="${item.url}" target="_blank" rel="noopener noreferrer">
+      Abrir recurso de estudo ↗
+    </a></p>
+    <button class="secondary" id="modalFavorite">
+      ${favorites.has(id) ? "♥ Remover dos favoritos" : "♡ Salvar nos favoritos"}
+    </button>
+  `;
+  $("#modalBg").classList.add("show");
+  $("#modalFavorite").addEventListener("click", () => {
+    toggleFavorite(id);
+    $("#modalFavorite").textContent = favorites.has(id)
+      ? "♥ Remover dos favoritos" : "♡ Salvar nos favoritos";
+  });
+}
+
+function closeModal() {
+  $("#modalBg").classList.remove("show");
+}
+function clearFilters() {
+  $("#search").value = "";
+  $("#subject").value = "Todas";
+  $("#sort").value = "recommended";
+  activeSubject = "Todas";
+  favoritesOnly = false;
+  updateChips();
+  render();
+}
+
+$("#search").addEventListener("input", render);
+$("#subject").addEventListener("change", () => {
+  activeSubject = $("#subject").value;
+  updateChips();
+  render();
+});
+$("#sort").addEventListener("change", render);
+$("#clear").addEventListener("click", clearFilters);
+$("#allMaterials").addEventListener("click", () => {
+  favoritesOnly = false;
+  render();
+  $("#biblioteca").scrollIntoView({behavior:"smooth"});
+});
+$("#favoritesBtn").addEventListener("click", () => {
+  favoritesOnly = true;
+  activeSubject = "Todas";
+  $("#subject").value = "Todas";
+  updateChips();
+  render();
+  $("#biblioteca").scrollIntoView({behavior:"smooth"});
+  if (!favorites.size) notify("Toque no coração de um material para favoritar.");
+});
+$("#themeBtn").addEventListener("click", () => {
+  const dark = document.body.classList.toggle("dark");
+  $("#themeBtn").textContent = dark ? "☀️" : "🌙";
+  writeStorage("educatech-theme", dark ? "dark" : "light");
+});
+if (readStorage("educatech-theme", "light") === "dark") {
+  document.body.classList.add("dark");
+  $("#themeBtn").textContent = "☀️";
+}
+$("#closeModal").addEventListener("click", closeModal);
+$("#modalBg").addEventListener("click", event => {
+  if (event.target === $("#modalBg")) closeModal();
+});
+document.addEventListener("keydown", event => {
+  if (event.key === "Escape") closeModal();
+});
+render();
+})();
+</script>
+</body>
+</html>
